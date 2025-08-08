@@ -11,7 +11,7 @@ import br.com.assetscontrol.app.model.AssetType;
 @Stateless
 public class AssetTypeService {
 
-  @PersistenceContext(unitName = "assetscontrol")
+  @PersistenceContext(unitName = "clinicplusPU")
   private EntityManager manager;
 
   public AssetType save(AssetType assetType) {
