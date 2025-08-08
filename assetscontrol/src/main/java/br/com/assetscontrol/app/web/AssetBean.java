@@ -42,4 +42,10 @@ public class AssetBean implements Serializable {
     FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Item Removido!"));
   }
 
+  public List<Asset> getAssets() {
+    return assets;
+  }
+  public Asset getAssetSelected() {
+    return assetSelected;
+  }
 }

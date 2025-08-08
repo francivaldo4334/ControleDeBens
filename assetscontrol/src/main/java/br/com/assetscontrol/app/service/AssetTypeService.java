@@ -33,6 +33,6 @@ public class AssetTypeService {
   }
 
   public List<AssetType> getAll() {
-    return manager.createQuery("SELECT AssetType FROM AssetType", AssetType.class).getResultList();
+    return manager.createQuery("SELECT t FROM AssetType t", AssetType.class).getResultList();
   }
 }

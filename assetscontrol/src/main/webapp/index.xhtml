@@ -1,13 +1,46 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
-
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 <h:head>
-    <title>Hello World JSF</title>
+    <title>Controle de Bens</title>
 </h:head>
-
 <h:body>
-    <h1>Hello World com JSF!</h1>
+    <h:form id="form">
+        <p:growl id="msgs" showDetail="true"/>
+        <p:panel header="Bens Cadastrados">
+            <p:dataTable var="asset" value="#{assetBean.assets}" paginator="true" rows="10">
+                <p:column headerText="Nome">
+                    <h:outputText value="#{asset.name}" />
+                </p:column>
+                <p:column headerText="Tipo">
+                    <h:outputText value="#{asset.type.name}" />
+                </p:column>
+                <p:column headerText="Preço Compra">
+                    <h:outputText value="#{asset.purchasePrice}" />
+                </p:column>
+                <p:column headerText="Data Compra">
+                    <h:outputText value="#{asset.purchaseDate}">
+                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="Vida útil (anos)">
+                    <h:outputText value="#{asset.usefulLifeYears}"/>
+                </p:column>
+                <p:column headerText="Valor Residual">
+                    <h:outputText value="#{asset.residualValue}"/>
+                </p:column>
+                <p:column headerText="Depreciação Anual">
+                    <h:outputText value="#{asset.annualDepreciation}"/>
+                </p:column>
+                <p:column headerText="Ações">
+                    <p:commandButton icon="pi pi-pencil" title="Editar" update=":form:dialogAsset" oncomplete="PF('dlg').show()"
+                                     actionListener="#{assetBean.setSelected(asset)}" process="@this"/>
+                    <p:commandButton icon="pi pi-trash" title="Excluir" action="#{assetBean.delete(asset)}" update=":form:msgs :form:table"/>
+                </p:column>
+            </p:dataTable>
+        </p:panel>
+    </h:form>
 </h:body>
-
 </html>
