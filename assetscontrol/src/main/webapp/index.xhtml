@@ -6,6 +6,7 @@
     <title>Controle de Bens</title>
 </h:head>
 <h:body>
+  <h:form>
     <p:toolbar>
         <p:toolbarGroup align="left">
             <h:outputText value="Meu Controle de Bens" />
@@ -13,32 +14,81 @@
         <p:toolbarGroup align="right">
             <p:button value="Editar tipos de bens" icon="pi pi-arrow-right" 
                       outcome="asset_type" />
-            <p:commandButton value="Adicionar" icon="pi pi-plus"
-                             action="#{bean.adicionar}" update="tabela" />
+
+        <div class="card">
+            <p:commandButton value="Adicionar" type="button" onclick="PF('dlg1').show()"
+                              action="#{bean.adicionar}" update="tabela" />
+        </div>
         </p:toolbarGroup>
     </p:toolbar>
 
     <p:dataTable id="tabela" value="#{[0,0]}" var="item">
-        <f:facet name="header">
-            Lista de Bens
-        </f:facet>
+      <f:facet name="header">
+          Lista de Bens
+      </f:facet>
 
-        <p:column headerText="Item 1">
-            <h:outputText value="ok" />
-        </p:column>
-        <p:column headerText="Item 2">
-            <h:outputText value="ok" />
-        </p:column>
-        <p:column headerText="Item 3">
-            <h:outputText value="ok" />
-        </p:column>
+      <p:column headerText="Nome">
+          <h:outputText value="ok" />
+      </p:column>
+      <p:column headerText="Tipo">
+          <h:outputText value="ok" />
+      </p:column>
+      <p:column headerText="Preço da Compra">
+          <h:outputText value="ok" />
+      </p:column>
+      <p:column headerText="Data da Compra">
+          <h:outputText value="ok" />
+      </p:column>
+      <p:column headerText="Vida útil estimada">
+          <h:outputText value="ok" />
+      </p:column>
+      <p:column headerText="Vida útil estimada (em anos)">
+          <h:outputText value="ok" />
+      </p:column>
+      <p:column headerText="Valor residual">
+          <h:outputText value="ok" />
+      </p:column>
 
-        <p:column headerText="Ações">
-            <p:commandButton icon="pi pi-trash" title="Deletar"
-                             action="#{bean.deletar(item)}"
-                             update="tabela"
-                             styleClass="ui-button-danger" />
-        </p:column>
+      <p:column headerText="Ações">
+          <p:commandButton value="Editar"
+                            action="#{bean.update(item)}" />
+          <p:commandButton value="Deletar"
+                            action="#{bean.delete(item)}" />
+      </p:column>
     </p:dataTable>
+
+  <p:dialog header="Novo item" widgetVar="dlg1" minHeight="40" width="500" showEffect="fade" closeOnEscape="true" >
+    <p:panelGrid columns="2" columnClasses="label,value" style="width:100%;">
+      <h:outputText value="Nome" />
+      <p:inputText id="nome" value="#{assetBean.assetSelected.name}" required="true" />
+
+      <h:outputText value="Tipo" />
+      <p:selectOneMenu id="tipo" value="#{assetBean.assetSelected.assetType}" required="true">
+        <f:selectItem itemLabel="Selecione" itemValue="" />
+        <f:selectItems value="#{assetTypeBean.assetTypes}" itemLabel="assetType.name" var="assetType" itemValue="#{assetType}" />
+      </p:selectOneMenu>
+
+      <h:outputText value="Preço da Compra" />
+      <p:inputText id="precoCompra" value="#{assetBean.assetSelected.purchasePriceCents}" required="true">
+        <f:convertNumber integerOnly="true" />
+      </p:inputText>
+
+      <h:outputText value="Data da Compra" />
+      <p:calendar id="dataCompra" value="#{assetBean.assetSelected.purchaseDate}" pattern="dd/MM/yyyy" required="true" />
+
+      <h:outputText value="Vida útil estimada (anos)" />
+      <p:inputText id="vidaUtil" value="#{assetBean.assetSelected.useFullLiveYears}" required="true">
+        <f:convertNumber integerOnly="true" />
+      </p:inputText>
+
+      <h:outputText value="Valor residual" />
+      <p:inputText id="valorResidual" value="#{assetBean.assetSelected.residualValueCents}" required="true">
+        <f:convertNumber integerOnly="true" />
+      </p:inputText>
+    </p:panelGrid>
+    <p:commandButton value="Salvar" action="#{assetBean.save}" update="msgs tabela" process="@form" ajax="true" style="margin-top:10px;" />
+    <p:messages id="msgs" autoUpdate="true" style="margin-bottom:10px;" />
+  </p:dialog>
+  </h:form>
 </h:body>
 </html>
