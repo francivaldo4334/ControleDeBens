@@ -28,7 +28,7 @@ public class AssetTypeService {
   }
 
   public void delete(AssetType assetType) {
-    assetType = getById(assetType.getId()); 
+    assetType = getById(assetType.getId());
     manager.remove(assetType);
   }
 

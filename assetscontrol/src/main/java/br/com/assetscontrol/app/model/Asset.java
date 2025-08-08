@@ -33,58 +33,58 @@ public class Asset implements Serializable {
   private Integer residualValueCents;
 
   public Long getId() {
-      return id;
+    return id;
   }
 
   public void setId(Long id) {
-      this.id = id;
+    this.id = id;
   }
 
   public String getName() {
-      return name;
+    return name;
   }
 
   public void setName(String name) {
-      this.name = name;
+    this.name = name;
   }
 
   public AssetType getAssetType() {
-      return assetType;
+    return assetType;
   }
 
   public void setAssetType(AssetType assetType) {
-      this.assetType = assetType;
+    this.assetType = assetType;
   }
 
   public Integer getPurchasePriceCents() {
-      return purchasePriceCents;
+    return purchasePriceCents;
   }
 
   public void setPurchasePriceCents(Integer purchasePriceCents) {
-      this.purchasePriceCents = purchasePriceCents;
+    this.purchasePriceCents = purchasePriceCents;
   }
 
   public Date getPurchaseDate() {
-      return purchaseDate;
+    return purchaseDate;
   }
 
   public void setPurchaseDate(Date purchaseDate) {
-      this.purchaseDate = purchaseDate;
+    this.purchaseDate = purchaseDate;
   }
 
   public Integer getUseFullLiveYears() {
-      return useFullLiveYears;
+    return useFullLiveYears;
   }
 
   public void setUseFullLiveYears(Integer useFullLiveYears) {
-      this.useFullLiveYears = useFullLiveYears;
+    this.useFullLiveYears = useFullLiveYears;
   }
 
   public Integer getResidualValueCents() {
-      return residualValueCents;
+    return residualValueCents;
   }
 
   public void setResidualValueCents(Integer residualValueCents) {
-      this.residualValueCents = residualValueCents;
+    this.residualValueCents = residualValueCents;
   }
 }

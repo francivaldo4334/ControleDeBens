@@ -45,6 +45,7 @@ public class AssetBean implements Serializable {
   public List<Asset> getAssets() {
     return assets;
   }
+
   public Asset getAssetSelected() {
     return assetSelected;
   }

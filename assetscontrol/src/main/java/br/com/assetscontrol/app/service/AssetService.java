@@ -1,6 +1,5 @@
 package br.com.assetscontrol.app.service;
 
-
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -28,7 +27,7 @@ public class AssetService {
   }
 
   public void delete(Asset asset) {
-    asset = getById(asset.getId()); 
+    asset = getById(asset.getId());
     manager.remove(asset);
   }
 
