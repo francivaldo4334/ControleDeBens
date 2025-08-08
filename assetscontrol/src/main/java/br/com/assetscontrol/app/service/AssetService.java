@@ -3,10 +3,15 @@ package br.com.assetscontrol.app.service;
 
 import java.util.List;
 
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
 import br.com.assetscontrol.app.model.Asset;
 
+@Stateless
 public class AssetService {
+  @PersistenceContext(unitName = "assetscontrol")
   private EntityManager manager;
 
   public Asset save(Asset asset) {
