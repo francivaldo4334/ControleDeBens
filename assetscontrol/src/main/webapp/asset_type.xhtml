@@ -1,9 +1,10 @@
-<!DOCTYPE html> <html xmlns="http://www.w3.org/1999/xhtml"
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 <h:head>
-    <title>Controle de Bens</title>
+    <title>Tipos de Bens</title>
 </h:head>
 <h:body>
     <p:toolbar>
@@ -11,8 +12,8 @@
             <h:outputText value="Meu Controle de Bens" />
         </p:toolbarGroup>
         <p:toolbarGroup align="right">
-            <p:button value="Editar tipos de bens" icon="pi pi-arrow-right" 
-                      outcome="asset_type" />
+            <p:button value="Voltar" icon="pi pi-arrow-right"
+                      onclick="history.back(); return false;"/>
             <p:commandButton value="Adicionar" icon="pi pi-plus"
                              action="#{bean.adicionar}" update="tabela" />
         </p:toolbarGroup>
