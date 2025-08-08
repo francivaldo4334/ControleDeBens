@@ -14,7 +14,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "asset")
-class Asset implements Serializable{
+public class Asset implements Serializable {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
@@ -31,4 +31,8 @@ class Asset implements Serializable{
   private Integer useFullLiveYears;
   @Column(name = "residual_value_cents")
   private Integer residualValueCents;
+
+  public Long getId() {
+    return id;
+  }
 }

@@ -11,10 +11,14 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "asset_type")
-class AssetType implements Serializable{
+public class AssetType implements Serializable {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
   @Column(nullable = false)
   private String name;
+
+  public Long getId() {
+    return id;
+  }
 }
