@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+    <title>Controle de Bens</title>
+</h:head>
+<h:body>
+  <h:form id="asset-form">
+    <p:growl id="asset-page-messages" showDetails="true"/>
+    <p:panel header="Bens Cadastrados">
+      <p:dataTable 
+        var="asset"
+        value="#{assetBean.assets}"
+        paginator="true"
+        rows="10"
+        selectionMode="single"
+        selection="#{assetBean.assetSelected}"
+      >
+        <p:column headerText="Nome">
+          <h:outputText value"#{asset.name}"/>
+        </p:column>
+      </p:dataTable>
+    </p:panel> 
+  </h:form>
+</h:body>
+</html>
