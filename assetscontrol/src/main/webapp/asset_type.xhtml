@@ -1,12 +1,12 @@
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
+<!DOCTYPE html> <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 <h:head>
-    <title>Tipos de Bens</title>
+    <title>Controle de Bens</title>
 </h:head>
 <h:body>
+  <h:form>
     <p:toolbar>
         <p:toolbarGroup align="left">
             <h:outputText value="Meu Controle de Bens" />
@@ -14,32 +14,39 @@
         <p:toolbarGroup align="right">
             <p:button value="Voltar" icon="pi pi-arrow-right"
                       onclick="history.back(); return false;"/>
-            <p:commandButton value="Adicionar" icon="pi pi-plus"
-                             action="#{bean.adicionar}" update="tabela" />
+
+        <div class="card">
+            <p:commandButton value="Adicionar" type="button" onclick="PF('dlg1').show()"
+                              action="#{bean.adicionar}" update="tabela" />
+        </div>
         </p:toolbarGroup>
     </p:toolbar>
 
     <p:dataTable id="tabela" value="#{[0,0]}" var="item">
-        <f:facet name="header">
-            Lista de Bens
-        </f:facet>
+      <f:facet name="header">
+          Lista de Tipos de bens
+      </f:facet>
 
-        <p:column headerText="Item 1">
-            <h:outputText value="ok" />
-        </p:column>
-        <p:column headerText="Item 2">
-            <h:outputText value="ok" />
-        </p:column>
-        <p:column headerText="Item 3">
-            <h:outputText value="ok" />
-        </p:column>
+      <p:column headerText="Nome">
+          <h:outputText value="ok" />
+      </p:column>
 
-        <p:column headerText="Ações">
-            <p:commandButton icon="pi pi-trash" title="Deletar"
-                             action="#{bean.deletar(item)}"
-                             update="tabela"
-                             styleClass="ui-button-danger" />
-        </p:column>
+      <p:column headerText="Ações">
+          <p:commandButton value="Editar"
+                            action="#{bean.update(item)}" />
+          <p:commandButton value="Deletar"
+                            action="#{bean.delete(item)}" />
+      </p:column>
     </p:dataTable>
+
+  <p:dialog header="Novo item" widgetVar="dlg1" minHeight="40" width="500" showEffect="fade" closeOnEscape="true" >
+    <p:panelGrid columns="2" columnClasses="label,value" style="width:100%;">
+      <h:outputText value="Nome" />
+      <p:inputText id="nome" value="#{assetTypeBean.assetTypeSelected.name}" required="true" />
+    </p:panelGrid>
+    <p:commandButton value="Salvar" action="#{assetTypeBean.save}" update="msgs tabela" process="@form" ajax="true" style="margin-top:10px;" />
+    <p:messages id="msgs" autoUpdate="true" style="margin-bottom:10px;" />
+  </p:dialog>
+  </h:form>
 </h:body>
 </html>
