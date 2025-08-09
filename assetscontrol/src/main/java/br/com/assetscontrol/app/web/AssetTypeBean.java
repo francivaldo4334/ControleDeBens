@@ -26,13 +26,17 @@ public class AssetTypeBean implements Serializable {
   @PostConstruct
   public void init() {
     assetTypes = service.getAll();
-    assetTypeSelected = new AssetType();
+    loadNewItem();
   }
 
   public void save() {
     service.save(assetTypeSelected);
     assetTypes = service.getAll();
     FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Salvo com sucesso!"));
+    loadNewItem();
+  }
+
+  public void loadNewItem() {
     assetTypeSelected = new AssetType();
   }
 
@@ -48,5 +52,9 @@ public class AssetTypeBean implements Serializable {
 
   public AssetType getAssetTypeSelected() {
     return assetTypeSelected;
+  }
+
+  public void setUpdateId(Long id) {
+    assetTypeSelected = service.getById(id);
   }
 }
