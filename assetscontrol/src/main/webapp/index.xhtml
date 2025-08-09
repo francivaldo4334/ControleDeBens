@@ -1,106 +1,149 @@
-<!DOCTYPE html> <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://xmlns.jcp.org/jsf/core">
 <h:head>
-    <title>Controle de Bens</title>
+  <title>Controle de Bens</title>
 </h:head>
 <h:body>
+
+<h:form id="formAsset">
   <f:metadata>
-      <f:viewAction action="#{assetBean.loadAssets}" />
-      <f:viewAction action="#{assetTypeBean.loadAssetTypes}" />
+    <f:viewAction action="#{assetBean.loadAssets}" />
+    <f:viewAction action="#{assetTypeBean.loadAssetTypes}" />
   </f:metadata>
-  <h:form id="formAsset">
-    <p:toolbar>
-        <p:toolbarGroup align="left">
-            <h:outputText value="Meu Controle de Bens" />
-        </p:toolbarGroup>
-        <p:toolbarGroup align="right">
-            <p:button value="Editar tipos de bens" icon="pi pi-arrow-right" 
-                      outcome="asset_type" />
+  <p:toolbar>
+      <p:toolbarGroup align="left">
+          <h:outputText value="Meu Controle de Bens" />
+      </p:toolbarGroup>
+      <p:toolbarGroup align="right">
+          <p:button value="Editar tipos de bens" outcome="asset_type" icon="pi pi-arrow-right" />
+          <p:commandButton value="Adicionar" action="#{assetBean.loadNewItem}" 
+                            update=":formAsset:dialogformAsset" oncomplete="PF('dlg1').show()" />
+      </p:toolbarGroup>
+  </p:toolbar>
 
-        <div class="card">
-            <p:commandButton value="Adicionar" 
-                              action="#{assetBean.loadNewItem}"
-                              update=":formAsset:dialogformAsset" 
-                              oncomplete="PF('dlg1').show()"/>
-        </div>
-        </p:toolbarGroup>
-    </p:toolbar>
+  <p:messages id="msgsDeleteAsset" autoUpdate="true" />
 
-    <p:messages id="msgsDeleteAsset" autoUpdate="true" />
-    <p:dataTable id="tabela" value="#{assetBean.assets}" var="item">
-      <f:facet name="header">
-          Lista de Bens
-      </f:facet>
+  <p:dataTable id="tabela" value="#{assetBean.assets}" var="item" paginator="true" rows="10">
 
       <p:column headerText="Nome">
-      <h:outputText value="#{item.name}" />
+          <h:outputText value="#{item.name}" />
       </p:column>
+
       <p:column headerText="Tipo">
-      <h:outputText value="#{item.assetType.name}" />
+          <h:outputText value="#{item.assetType.name}" />
       </p:column>
+
       <p:column headerText="Preço da Compra">
-      <h:outputText value="#{item.purchasePriceCents}" />
+          <h:outputText value="#{item.purchasePriceCents / 100.0}">
+              <f:convertNumber type="currency" currencySymbol="R$" />
+          </h:outputText>
       </p:column>
+
       <p:column headerText="Data da Compra">
-      <h:outputText value="#{item.purchaseDate}" />
+          <h:outputText value="#{item.purchaseDate}">
+              <f:convertDateTime pattern="dd/MM/yyyy" />
+          </h:outputText>
       </p:column>
-      <p:column headerText="Vida útil estimada (em anos)">
-      <h:outputText value="#{item.useFullLiveYears}" />
+
+      <p:column headerText="Vida útil (anos)">
+          <h:outputText value="#{item.useFullLiveYears}" />
       </p:column>
+
       <p:column headerText="Valor residual">
-      <h:outputText value="#{item.residualValueCents}" />
+          <h:outputText value="#{item.residualValueCents != null ? item.residualValueCents / 100.0 : 0}">
+              <f:convertNumber type="currency" currencySymbol="R$" />
+          </h:outputText>
       </p:column>
+
       <p:column headerText="Depreciação Anual">
-          <h:outputText value="#{item.annualDepreciation}" />
+          <h:outputText value="#{item.annualDepreciation != null ? item.annualDepreciation / 100.0 : 0}">
+              <f:convertNumber type="currency" currencySymbol="R$" />
+          </h:outputText>
       </p:column>
+
       <p:column headerText="Ações">
-          <p:commandButton value="Editar"
-                            action="#{assetBean.loadUpdateId(item.id)}"
-                            process="@this"
-                            update=":formAsset:dialogformAsset"
-                            oncomplete="PF('dlg1').show()"/>
-          <p:commandButton value="Deletar"
-                            action="#{assetBean.delete(item)}" 
-                            process="@this"
+          <p:commandButton value="Detalhar" action="#{assetBean.loadUpdateId(item.id)}"
+                            process="@this" update=":formAsset:dialogDetailsAsset" oncomplete="PF('dlgdetails').show()" />
+          <p:commandButton value="Editar" action="#{assetBean.loadUpdateId(item.id)}"
+                            update=":formAsset:dialogformAsset" oncomplete="PF('dlg1').show()" />
+          <p:commandButton value="Deletar" action="#{assetBean.delete(item)}" process="@this"
                             update=":formAsset:tabela :formAsset:msgsDeleteAsset" />
       </p:column>
-    </p:dataTable>
 
-  <p:dialog id="dialogformAsset" header="Novo item" widgetVar="dlg1" minHeight="40" width="500" showEffect="fade" closeOnEscape="true" >
-    <p:panelGrid columns="2" columnClasses="label,value" style="width:100%;">
-      <h:outputText value="Nome" />
-      <p:inputText id="nome" value="#{assetBean.assetSelected.name}" required="true" />
+  </p:dataTable>
 
-      <h:outputText value="Tipo" />
-      <p:selectOneMenu id="tipo" value="#{assetBean.formAssetTypeSelected}" required="true">
-          <f:selectItem itemLabel="Selecione" itemValue="#{null}" noSelectionOption="true" />
-          <f:selectItems value="#{assetTypeBean.assetTypes}" var="assetType"
-                        itemLabel="#{assetType.name}" itemValue="#{assetType.id}" />
-      </p:selectOneMenu>
+  <p:dialog id="dialogDetailsAsset" header="Detalhes" widgetVar="dlgdetails" modal="true" closable="true" resizable="false" width="500">
+      <p:panelGrid columns="2" columnClasses="label,value" style="width:100%;">
+          <h:outputText value="Nome:" />
+          <h:outputText value="#{assetBean.assetSelected.name}" />
 
-      <h:outputText value="Preço da Compra" />
-      <p:inputText id="precoCompra" value="#{assetBean.assetSelected.purchasePriceCents}" required="true">
-        <f:convertNumber integerOnly="true" />
-      </p:inputText>
+          <h:outputText value="Tipo:" />
+          <h:outputText value="#{assetBean.assetSelected.assetType.name}" />
 
-      <h:outputText value="Data da Compra" />
-      <p:calendar id="dataCompra" value="#{assetBean.assetSelected.purchaseDate}" pattern="dd/MM/yyyy" required="true" />
+          <h:outputText value="Preço da Compra:" />
+          <h:outputText value="#{assetBean.assetSelected.purchasePriceCents / 100.0}">
+              <f:convertNumber type="currency" currencySymbol="R$" />
+          </h:outputText>
 
-      <h:outputText value="Vida útil estimada (anos)" />
-      <p:inputText id="vidaUtil" value="#{assetBean.assetSelected.useFullLiveYears}" required="true">
-        <f:convertNumber integerOnly="true" />
-      </p:inputText>
+          <h:outputText value="Data da Compra:" />
+          <h:outputText value="#{assetBean.assetSelected.purchaseDate}">
+              <f:convertDateTime pattern="dd/MM/yyyy" />
+          </h:outputText>
 
-      <h:outputText value="Valor residual" />
-      <p:inputText id="valorResidual" value="#{assetBean.assetSelected.residualValueCents}" required="true">
-        <f:convertNumber integerOnly="true" />
-      </p:inputText>
-    </p:panelGrid>
-    <p:commandButton value="Salvar" action="#{assetBean.save}" update="msgs tabela" process="@form" ajax="true" style="margin-top:10px;" />
-    <p:messages id="msgs" autoUpdate="true" style="margin-bottom:10px;" />
+          <h:outputText value="Vida útil (anos):" />
+          <h:outputText value="#{assetBean.assetSelected.useFullLiveYears}" />
+
+          <h:outputText value="Valor residual:" />
+          <h:outputText value="#{assetBean.assetSelected.residualValueCents != null ? assetBean.assetSelected.residualValueCents / 100.0 : 0}">
+              <f:convertNumber type="currency" currencySymbol="R$" />
+          </h:outputText>
+
+          <h:outputText value="Depreciação Anual:" />
+          <h:outputText value="#{assetBean.assetSelected.annualDepreciation != null ? assetBean.assetSelected.annualDepreciation / 100.0 : 0}">
+              <f:convertNumber type="currency" currencySymbol="R$" />
+          </h:outputText>
+      </p:panelGrid>
   </p:dialog>
-  </h:form>
+
+  <p:dialog id="dialogformAsset" header="Novo item" widgetVar="dlg1" modal="true" closable="true" resizable="false" width="500">
+      <p:panelGrid columns="2" columnClasses="label,value" style="width:100%;">
+          <h:outputText value="Nome" />
+          <p:inputText id="nome" value="#{assetBean.assetSelected.name}" required="true" label="Nome"/>
+
+          <h:outputText value="Tipo" />
+          <p:selectOneMenu id="tipo" value="#{assetBean.formAssetTypeSelected}" required="true" converter="javax.faces.Long" label="Tipo">
+              <f:selectItem itemLabel="Selecione" itemValue="#{null}" noSelectionOption="true" />
+              <f:selectItems value="#{assetTypeBean.assetTypes}" var="assetType"
+                              itemLabel="#{assetType.name}" itemValue="#{assetType.id}" />
+          </p:selectOneMenu>
+
+          <h:outputText value="Preço da Compra (centavos)" />
+          <p:inputText id="precoCompra" value="#{assetBean.assetSelected.purchasePriceCents}" required="true" label="Preço de Compra">
+              <f:convertNumber integerOnly="true" />
+          </p:inputText>
+
+          <h:outputText value="Data da Compra" />
+          <p:calendar id="dataCompra" value="#{assetBean.assetSelected.purchaseDate}" pattern="dd/MM/yyyy" required="true" showButtonPanel="true" label="Data da Compra"/>
+
+          <h:outputText value="Vida útil (anos)" />
+          <p:inputText id="vidaUtil" value="#{assetBean.assetSelected.useFullLiveYears}" required="true" label="Vida útil">
+              <f:convertNumber integerOnly="true" />
+          </p:inputText>
+
+          <h:outputText value="Valor residual (centavos)" />
+          <p:inputText id="valorResidual" value="#{assetBean.assetSelected.residualValueCents}" label="Valor residual">
+              <f:convertNumber integerOnly="true" />
+          </p:inputText>
+      </p:panelGrid>
+
+      <p:commandButton value="Salvar" action="#{assetBean.save}" update="msgs tabela" process="@form" ajax="true" style="margin-top:10px;" />
+      <p:messages id="msgs" autoUpdate="true" style="margin-bottom:10px;" />
+  </p:dialog>
+
+</h:form>
+
 </h:body>
 </html>
