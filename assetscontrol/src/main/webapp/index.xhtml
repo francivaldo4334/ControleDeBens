@@ -25,31 +25,28 @@
         </p:toolbarGroup>
     </p:toolbar>
 
-    <p:dataTable id="tabela" value="#{[0,0]}" var="item">
+    <p:dataTable id="tabela" value="#{assetBean.assets}" var="item">
       <f:facet name="header">
           Lista de Bens
       </f:facet>
 
       <p:column headerText="Nome">
-          <h:outputText value="ok" />
+      <h:outputText value="#{item.name}" />
       </p:column>
       <p:column headerText="Tipo">
-          <h:outputText value="ok" />
+      <h:outputText value="#{item.assetType.name}" />
       </p:column>
       <p:column headerText="Preço da Compra">
-          <h:outputText value="ok" />
+      <h:outputText value="#{item.purchasePriceCents}" />
       </p:column>
       <p:column headerText="Data da Compra">
-          <h:outputText value="ok" />
-      </p:column>
-      <p:column headerText="Vida útil estimada">
-          <h:outputText value="ok" />
+      <h:outputText value="#{item.purchaseDate}" />
       </p:column>
       <p:column headerText="Vida útil estimada (em anos)">
-          <h:outputText value="ok" />
+      <h:outputText value="#{item.useFullLiveYears}" />
       </p:column>
       <p:column headerText="Valor residual">
-          <h:outputText value="ok" />
+      <h:outputText value="#{item.residualValueCents}" />
       </p:column>
 
       <p:column headerText="Ações">
