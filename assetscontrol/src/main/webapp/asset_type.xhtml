@@ -22,13 +22,13 @@
         </p:toolbarGroup>
     </p:toolbar>
 
-    <p:dataTable id="tabela" value="#{[0,0]}" var="item">
+    <p:dataTable id="tabela" value="#{assetTypeBean.assetTypes}" var="item">
       <f:facet name="header">
           Lista de Tipos de bens
       </f:facet>
 
       <p:column headerText="Nome">
-          <h:outputText value="ok" />
+      <h:outputText value="#{item.name}" />
       </p:column>
 
       <p:column headerText="Ações">
