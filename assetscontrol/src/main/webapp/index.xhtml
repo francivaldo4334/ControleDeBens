@@ -6,6 +6,9 @@
     <title>Controle de Bens</title>
 </h:head>
 <h:body>
+  <f:metadata>
+      <f:viewAction action="#{assetBean.loadAssets}" />
+  </f:metadata>
   <h:form>
     <p:toolbar>
         <p:toolbarGroup align="left">
@@ -63,9 +66,10 @@
       <p:inputText id="nome" value="#{assetBean.assetSelected.name}" required="true" />
 
       <h:outputText value="Tipo" />
-      <p:selectOneMenu id="tipo" value="#{assetBean.assetSelected.assetType}" required="true">
-        <f:selectItem itemLabel="Selecione" itemValue="" />
-        <f:selectItems value="#{assetTypeBean.assetTypes}" itemLabel="#{assetType.name}" var="assetType" itemValue="#{assetType}" />
+      <p:selectOneMenu id="tipo" value="#{assetBean.formAssetTypeSelected}" required="true">
+          <f:selectItem itemLabel="Selecione" itemValue="#{null}" noSelectionOption="true" />
+          <f:selectItems value="#{assetTypeBean.assetTypes}" var="assetType"
+                        itemLabel="#{assetType.name}" itemValue="#{assetType.id}" />
       </p:selectOneMenu>
 
       <h:outputText value="Preço da Compra" />

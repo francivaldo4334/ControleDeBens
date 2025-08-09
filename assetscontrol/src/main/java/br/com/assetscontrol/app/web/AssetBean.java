@@ -11,7 +11,9 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import br.com.assetscontrol.app.model.Asset;
+import br.com.assetscontrol.app.model.AssetType;
 import br.com.assetscontrol.app.service.AssetService;
+import br.com.assetscontrol.app.service.AssetTypeService;
 
 @Named
 @ViewScoped
@@ -19,17 +21,42 @@ public class AssetBean implements Serializable {
 
   @Inject
   private AssetService service;
+  @Inject
+  private AssetTypeService assetTypeService;
 
   private List<Asset> assets;
   private Asset assetSelected;
+  private Long formAssetTypeSelected;
+
+  public AssetService getService() {
+    return service;
+  }
 
   @PostConstruct
   public void init() {
-    assets = service.getAll();
+    formAssetTypeSelected = 0L;
     assetSelected = new Asset();
   }
 
+  public void loadAssets() {
+    assets = service.getAll();
+  }
+
   public void save() {
+    if (formAssetTypeSelected == null || formAssetTypeSelected <= 0) {
+      FacesContext.getCurrentInstance().addMessage(null,
+          new FacesMessage(FacesMessage.SEVERITY_ERROR, "Selecione um tipo de ativo!", null));
+      return;
+    }
+
+    AssetType assetType = assetTypeService.getById(formAssetTypeSelected);
+    if (assetType == null) {
+      FacesContext.getCurrentInstance().addMessage(null,
+          new FacesMessage(FacesMessage.SEVERITY_ERROR, "Tipo de ativo não encontrado!", null));
+      return;
+    }
+
+    assetSelected.setAssetType(assetType);
     service.save(assetSelected);
     assets = service.getAll();
     FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Salvo com sucesso!"));
@@ -49,4 +76,13 @@ public class AssetBean implements Serializable {
   public Asset getAssetSelected() {
     return assetSelected;
   }
+
+  public Long getFormAssetTypeSelected() {
+    return formAssetTypeSelected;
+  }
+
+  public void setFormAssetTypeSelected(Long formAssetTypeSelected) {
+    this.formAssetTypeSelected = formAssetTypeSelected;
+  }
+
 }
