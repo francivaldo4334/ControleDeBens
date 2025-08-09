@@ -22,7 +22,7 @@
             <p:commandButton value="Adicionar" 
                              action="#{assetTypeBean.loadNewItem}"
                              update=":formAssetType:dialogFormAssetType"
-                             oncomplete="PF('dlg1').show()"/>
+                             oncomplete="PF('dlg2').show()"/>
         </div>
         </p:toolbarGroup>
     </p:toolbar>
@@ -52,7 +52,7 @@
       </p:column>
     </p:dataTable>
 
-  <p:dialog id="dialogFormAssetType" header="Novo item" widgetVar="dlg1" minHeight="40" width="500" showEffect="fade" closeOnEscape="true" >
+  <p:dialog id="dialogFormAssetType" header="Novo item" widgetVar="dlg2" minHeight="40" width="500" showEffect="fade" closeOnEscape="true" >
     <p:panelGrid columns="2" columnClasses="label,value" style="width:100%;">
       <h:outputText value="Nome" />
       <p:inputText id="nome" value="#{assetTypeBean.assetTypeSelected.name}" required="true" />

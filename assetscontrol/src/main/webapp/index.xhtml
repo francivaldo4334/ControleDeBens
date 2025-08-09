@@ -10,7 +10,7 @@
       <f:viewAction action="#{assetBean.loadAssets}" />
       <f:viewAction action="#{assetTypeBean.loadAssetTypes}" />
   </f:metadata>
-  <h:form>
+  <h:form id="formAsset">
     <p:toolbar>
         <p:toolbarGroup align="left">
             <h:outputText value="Meu Controle de Bens" />
@@ -20,8 +20,10 @@
                       outcome="asset_type" />
 
         <div class="card">
-            <p:commandButton value="Adicionar" type="button" onclick="PF('dlg1').show()"
-                              action="#{bean.adicionar}" update="tabela" />
+            <p:commandButton value="Adicionar" 
+                              action="#{assetBean.loadNewItem}"
+                              update=":formAsset:dialogformAsset" 
+                              oncomplete="PF('dlg1').show()"/>
         </div>
         </p:toolbarGroup>
     </p:toolbar>
@@ -52,13 +54,16 @@
 
       <p:column headerText="Ações">
           <p:commandButton value="Editar"
-                            action="#{bean.update(item)}" />
+                            action="#{assetBean.loadUpdateId(item.id)}"
+                            process="@this"
+                            update=":formAsset:dialogformAsset"
+                            oncomplete="PF('dlg1').show()"/>
           <p:commandButton value="Deletar"
-                            action="#{bean.delete(item)}" />
+                            action="#{assetBean.delete(item)}" />
       </p:column>
     </p:dataTable>
 
-  <p:dialog header="Novo item" widgetVar="dlg1" minHeight="40" width="500" showEffect="fade" closeOnEscape="true" >
+  <p:dialog id="dialogformAsset" header="Novo item" widgetVar="dlg1" minHeight="40" width="500" showEffect="fade" closeOnEscape="true" >
     <p:panelGrid columns="2" columnClasses="label,value" style="width:100%;">
       <h:outputText value="Nome" />
       <p:inputText id="nome" value="#{assetBean.assetSelected.name}" required="true" />

@@ -34,6 +34,10 @@ public class AssetBean implements Serializable {
 
   @PostConstruct
   public void init() {
+    loadNewItem();
+  }
+
+  public void loadNewItem() {
     formAssetTypeSelected = 0L;
     assetSelected = new Asset();
   }
@@ -60,13 +64,18 @@ public class AssetBean implements Serializable {
     service.save(assetSelected);
     assets = service.getAll();
     FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Salvo com sucesso!"));
-    assetSelected = new Asset();
+    loadNewItem();
   }
 
   public void delete(Asset asset) {
     service.delete(asset);
     assets = service.getAll();
     FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Item Removido!"));
+  }
+
+  public void loadUpdateId(Long id) {
+    assetSelected = service.getById(id);
+    formAssetTypeSelected = assetSelected.getAssetType().getId();
   }
 
   public List<Asset> getAssets() {
