@@ -4,17 +4,17 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
-import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import br.com.assetscontrol.app.model.AssetType;
 import br.com.assetscontrol.app.service.AssetTypeService;
 
+@SessionScoped
 @Named
-@ViewScoped
 public class AssetTypeBean implements Serializable {
 
   @Inject
