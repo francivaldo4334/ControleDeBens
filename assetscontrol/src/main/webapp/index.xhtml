@@ -21,11 +21,16 @@
         <p:inputText id="searchField" value="#{assetBean.searchName}" placeholder="Pesquisar..." />
         <p:commandButton value="Pesquisar"
                         action="#{assetBean.search}"
-                        update=":formAsset:tabela"/>
+                        process="@this :formAsset:searchField"
+                        update=":formAsset:tabela"
+                        ajax="true"
+                        />
         <p:button value="Editar tipos de bens" outcome="asset_type"/>
         <p:commandButton value="Adicionar" 
                         action="#{assetBean.loadNewItem}" 
                         update=":formAsset:dialogformAsset" 
+                        process="@this :formAsset:dialogformAsset"
+                        ajax="true"
                         oncomplete="PF('dlg1').show()" />
       </p:toolbarGroup>
   </p:toolbar>
@@ -71,10 +76,19 @@
       </p:column>
 
       <p:column headerText="Ações">
-          <p:commandButton value="Detalhar" action="#{assetBean.loadUpdateId(item.id)}"
-                            process="@this" update=":formAsset:dialogDetailsAsset" oncomplete="PF('dlgdetails').show()" />
-          <p:commandButton value="Editar" action="#{assetBean.loadUpdateId(item.id)}"
-                            update=":formAsset:dialogformAsset" oncomplete="PF('dlg1').show()" />
+          <p:commandButton value="Detalhar" 
+                            action="#{assetBean.loadUpdateId(item.id)}"
+                            process="@this"
+                            update=":formAsset:dialogDetailsAsset" 
+                            oncomplete="PF('dlgdetails').show()"
+                            ajax="true"
+                            />
+          <p:commandButton value="Editar"
+                            action="#{assetBean.loadUpdateId(item.id)}"
+                            update=":formAsset:dialogformAsset"
+                            process="@this"
+                            ajax="true"
+                            oncomplete="PF('dlg1').show()" />
       </p:column>
 
   </p:dataTable>
@@ -145,7 +159,7 @@
           </p:inputText>
       </p:panelGrid>
 
-      <p:commandButton value="Salvar" action="#{assetBean.save}" update="msgs tabela" process="@form" ajax="true" style="margin-top:10px;" />
+      <p:commandButton value="Salvar" action="#{assetBean.save}" update=":formAsset:msgs :formAsset:tabela" process="@form" ajax="true" style="margin-top:10px;" />
       <p:messages id="msgs" autoUpdate="true" style="margin-bottom:10px;" />
   </p:dialog>
 

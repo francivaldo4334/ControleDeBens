@@ -19,13 +19,18 @@
             <p:inputText id="searchFieldAssetType" value="#{assetTypeBean.searchName}" placeholder="Pesquisar..." />
             <p:commandButton value="Pesquisar"
                         action="#{assetTypeBean.search}"
-                        update=":formAssetType:tabela"/>
+                        process="@this :formAssetType:searchFieldAssetType"
+                        update=":formAssetType:tabela"
+                        ajax="true"
+                        />
             <p:button value="Voltar"
                       onclick="history.back(); return false;"/>
             <p:commandButton value="Adicionar" 
-                             action="#{assetTypeBean.loadNewItem}"
-                             update=":formAssetType:dialogFormAssetType"
-                             oncomplete="PF('dlg2').show()"/>
+                              action="#{assetTypeBean.loadNewItem}"
+                              update=":formAssetType:dialogFormAssetType"
+                              oncomplete="PF('dlg2').show()"
+                              ajax="true"
+                              />
         </p:toolbarGroup>
     </p:toolbar>
 
@@ -41,12 +46,15 @@
                             process="@this"
                             update=":formAssetType:dialogFormAssetType"
                             oncomplete="PF('dlg2').show()"
+                            ajax="true"
                             />
 
           <p:commandButton value="Deletar"
                             action="#{assetTypeBean.delete(item)}"
                             process="@this"
-                            update=":formAssetType:tabela :formAssetType:msgsDelete"/>
+                            update=":formAssetType:tabela :formAssetType:msgsDelete"
+                            ajax="true"
+                            />
       </p:column>
     </p:dataTable>
 
@@ -58,7 +66,7 @@
     <p:commandButton value="Salvar"
                       action="#{assetTypeBean.save}"
                       update="msgs tabela"
-                      process="@form"
+                      process="@this :formAssetType:tabela"
                       ajax="true"
                       style="margin-top:10px;"/>
     <p:messages id="msgs" autoUpdate="true" style="margin-bottom:10px;" />
