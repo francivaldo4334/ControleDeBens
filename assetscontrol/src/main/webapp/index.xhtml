@@ -106,7 +106,7 @@
               <f:convertNumber type="currency" currencySymbol="R$" />
           </h:outputText>
       </p:panelGrid>
-      <p:commandButton value="Excluir" action="#{assetBean.delete(item)}" process="@this"
+      <p:commandButton value="Excluir" action="#{assetBean.delete(assetBean.assetSelected)}" process="@this"
                       update=":formAsset:tabela :formAsset:msgsDeleteAsset" />
   </p:dialog>
 
