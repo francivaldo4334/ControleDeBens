@@ -16,6 +16,10 @@
             <h:outputText value="Meu Controle de Bens" />
         </p:toolbarGroup>
         <p:toolbarGroup align="right">
+            <p:inputText id="searchFieldAssetType" value="#{assetBean.searchName}" placeholder="Pesquisar..." />
+            <p:commandButton value="Pesquisar"
+                        action="#{assetTypeBean.search}"
+                        update=":formAssetType:tabela"/>
             <p:button value="Voltar"
                       onclick="history.back(); return false;"/>
             <p:commandButton value="Adicionar" 

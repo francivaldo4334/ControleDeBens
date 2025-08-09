@@ -27,14 +27,12 @@ public class AssetBean implements Serializable {
   private List<Asset> assets;
   private Asset assetSelected;
   private Long formAssetTypeSelected;
-
-  public AssetService getService() {
-    return service;
-  }
+  private String searchName;
 
   @PostConstruct
   public void init() {
     loadNewItem();
+    searchName = "";
   }
 
   public void loadNewItem() {
@@ -92,6 +90,18 @@ public class AssetBean implements Serializable {
 
   public void setFormAssetTypeSelected(Long formAssetTypeSelected) {
     this.formAssetTypeSelected = formAssetTypeSelected;
+  }
+
+  public void setSearchName(String searchName) {
+    this.searchName = searchName;
+  }
+
+  public String getSearchName() {
+    return searchName;
+  }
+
+  public void search() {
+    assets = service.search(searchName);
   }
 
 }

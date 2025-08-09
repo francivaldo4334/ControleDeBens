@@ -18,11 +18,15 @@
           <h:outputText value="Meu Controle de Bens" />
       </p:toolbarGroup>
       <p:toolbarGroup align="right">
-          <p:button value="Editar tipos de bens" outcome="asset_type"/>
-          <p:commandButton value="Adicionar" 
-                          action="#{assetBean.loadNewItem}" 
-                          update=":formAsset:dialogformAsset" 
-                          oncomplete="PF('dlg1').show()" />
+        <p:inputText id="searchField" value="#{assetBean.searchName}" placeholder="Pesquisar..." />
+        <p:commandButton value="Pesquisar"
+                        action="#{assetBean.search}"
+                        update=":formAsset:tabela"/>
+        <p:button value="Editar tipos de bens" outcome="asset_type"/>
+        <p:commandButton value="Adicionar" 
+                        action="#{assetBean.loadNewItem}" 
+                        update=":formAsset:dialogformAsset" 
+                        oncomplete="PF('dlg1').show()" />
       </p:toolbarGroup>
   </p:toolbar>
 

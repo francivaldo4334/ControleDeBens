@@ -22,6 +22,7 @@ public class AssetTypeBean implements Serializable {
 
   private List<AssetType> assetTypes;
   private AssetType assetTypeSelected;
+  private String searchName;
 
   @PostConstruct
   public void init() {
@@ -69,4 +70,17 @@ public class AssetTypeBean implements Serializable {
   public void setUpdateId(Long id) {
     assetTypeSelected = service.getById(id);
   }
+
+  public void setSearchName(String searchName) {
+    this.searchName = searchName;
+  }
+
+  public String getSearchName() {
+    return searchName;
+  }
+
+  public void search() {
+    assetTypes = service.search(searchName);
+  }
+
 }

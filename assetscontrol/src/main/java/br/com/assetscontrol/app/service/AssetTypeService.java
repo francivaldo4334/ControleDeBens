@@ -5,6 +5,10 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 
 import br.com.assetscontrol.app.model.AssetType;
 
@@ -47,5 +51,19 @@ public class AssetTypeService {
 
   public List<AssetType> getAll() {
     return manager.createQuery("SELECT t FROM AssetType t", AssetType.class).getResultList();
+  }
+
+  public List<AssetType> search(String search) {
+    if (search == null || search.trim().isEmpty()) {
+      return getAll();
+    }
+    CriteriaBuilder cb = manager.getCriteriaBuilder();
+    CriteriaQuery<AssetType> cq = cb.createQuery(AssetType.class);
+    Root<AssetType> root = cq.from(AssetType.class);
+
+    String pattern = "%" + search.trim().toLowerCase() + "%";
+    cq.where(cb.like(cb.lower(root.get("name")), pattern));
+
+    return manager.createQuery(cq).getResultList();
   }
 }
