@@ -25,13 +25,16 @@ public class AssetTypeBean implements Serializable {
 
   @PostConstruct
   public void init() {
-    assetTypes = service.getAll();
     loadNewItem();
+  }
+
+  public void loadAssetTypes() {
+    assetTypes = service.getAll();
   }
 
   public void save() {
     service.save(assetTypeSelected);
-    assetTypes = service.getAll();
+    loadAssetTypes();
     FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Salvo com sucesso!"));
     loadNewItem();
   }
@@ -41,9 +44,18 @@ public class AssetTypeBean implements Serializable {
   }
 
   public void delete(AssetType assetType) {
-    service.delete(assetType);
-    assetTypes = service.getAll();
-    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Item Removido!"));
+    try {
+      service.delete(assetType);
+      loadAssetTypes();
+      FacesContext.getCurrentInstance().addMessage(null,
+          new FacesMessage(FacesMessage.SEVERITY_INFO, "Sucesso", "Tipo de ativo deletado."));
+    } catch (IllegalStateException e) {
+      FacesContext.getCurrentInstance().addMessage(null,
+          new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro", e.getMessage()));
+    } catch (Exception e) {
+      FacesContext.getCurrentInstance().addMessage(null,
+          new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro inesperado", "Erro ao deletar item."));
+    }
   }
 
   public List<AssetType> getAssetTypes() {

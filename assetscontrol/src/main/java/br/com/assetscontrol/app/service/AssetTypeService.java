@@ -27,9 +27,22 @@ public class AssetTypeService {
     return manager.find(AssetType.class, id);
   }
 
+  private boolean hasAssets(Long assetTypeId) {
+    Long count = manager.createQuery(
+        "SELECT COUNT(a) FROM Asset a WHERE a.assetType.id = :id", Long.class)
+        .setParameter("id", assetTypeId)
+        .getSingleResult();
+    return count > 0;
+  }
+
   public void delete(AssetType assetType) {
-    assetType = getById(assetType.getId());
-    manager.remove(assetType);
+    if (hasAssets(assetType.getId())) {
+      throw new IllegalStateException("Cannot delete AssetType because it is referenced by existing Assets.");
+    }
+    AssetType managed = manager.find(AssetType.class, assetType.getId());
+    if (managed != null) {
+      manager.remove(managed);
+    }
   }
 
   public List<AssetType> getAll() {
