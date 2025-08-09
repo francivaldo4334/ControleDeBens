@@ -49,7 +49,7 @@
   <p:dialog id="dialogFormAssetType" header="Novo item" widgetVar="dlg2" minHeight="40" width="500" showEffect="fade" closeOnEscape="true" >
     <p:panelGrid columns="2" columnClasses="label,value" style="width:100%;">
       <h:outputText value="Nome" />
-      <p:inputText id="nome" value="#{assetTypeBean.assetTypeSelected.name}" required="true" />
+      <p:inputText id="nome" value="#{assetTypeBean.assetTypeSelected.name}" required="true" label="Nome"/>
     </p:panelGrid>
     <p:commandButton value="Salvar"
                       action="#{assetTypeBean.save}"
