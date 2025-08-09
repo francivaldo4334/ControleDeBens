@@ -52,7 +52,9 @@
       <p:column headerText="Valor residual">
       <h:outputText value="#{item.residualValueCents}" />
       </p:column>
-
+      <p:column headerText="Depreciação Anual">
+          <h:outputText value="#{item.annualDepreciation}" />
+      </p:column>
       <p:column headerText="Ações">
           <p:commandButton value="Editar"
                             action="#{assetBean.loadUpdateId(item.id)}"

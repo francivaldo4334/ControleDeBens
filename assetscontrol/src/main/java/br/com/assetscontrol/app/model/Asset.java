@@ -12,6 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import br.com.assetscontrol.app.util.AnnualDepreciationUtil;
+
 @Entity
 @Table(name = "asset")
 public class Asset implements Serializable {
@@ -86,5 +88,9 @@ public class Asset implements Serializable {
 
   public void setResidualValueCents(Integer residualValueCents) {
     this.residualValueCents = residualValueCents;
+  }
+
+  public Integer getAnnualDepreciation() {
+    return AnnualDepreciationUtil.calc(purchasePriceCents, residualValueCents, useFullLiveYears);
   }
 }
