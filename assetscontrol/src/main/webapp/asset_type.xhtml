@@ -1,4 +1,5 @@
-<!DOCTYPE html> <html xmlns="http://www.w3.org/1999/xhtml"
+<!DOCTYPE html> 
+<html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
@@ -15,34 +16,27 @@
             <h:outputText value="Meu Controle de Bens" />
         </p:toolbarGroup>
         <p:toolbarGroup align="right">
-            <p:button value="Voltar" icon="pi pi-arrow-right"
+            <p:button value="Voltar"
                       onclick="history.back(); return false;"/>
-
-        <div class="card">
             <p:commandButton value="Adicionar" 
                              action="#{assetTypeBean.loadNewItem}"
                              update=":formAssetType:dialogFormAssetType"
                              oncomplete="PF('dlg2').show()"/>
-        </div>
         </p:toolbarGroup>
     </p:toolbar>
 
     <p:messages id="msgsDelete" autoUpdate="true" />
     <p:dataTable id="tabela" value="#{assetTypeBean.assetTypes}" var="item">
-      <f:facet name="header">
-          Lista de Tipos de bens
-      </f:facet>
-
       <p:column headerText="Nome">
       <h:outputText value="#{item.name}" />
       </p:column>
 
-      <p:column headerText="Ações">
+      <p:column headerText="Ações" style="text-align: right;">
           <p:commandButton value="Editar"
                             action="#{assetTypeBean.setUpdateId(item.id)}"
                             process="@this"
                             update=":formAssetType:dialogFormAssetType"
-                            oncomplete="PF('dlg1').show()"
+                            oncomplete="PF('dlg2').show()"
                             />
 
           <p:commandButton value="Deletar"
