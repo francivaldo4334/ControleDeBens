@@ -28,6 +28,7 @@
         </p:toolbarGroup>
     </p:toolbar>
 
+    <p:messages id="msgsDeleteAsset" autoUpdate="true" />
     <p:dataTable id="tabela" value="#{assetBean.assets}" var="item">
       <f:facet name="header">
           Lista de Bens
@@ -59,7 +60,9 @@
                             update=":formAsset:dialogformAsset"
                             oncomplete="PF('dlg1').show()"/>
           <p:commandButton value="Deletar"
-                            action="#{assetBean.delete(item)}" />
+                            action="#{assetBean.delete(item)}" 
+                            process="@this"
+                            update=":formAsset:tabela :formAsset:msgsDeleteAsset" />
       </p:column>
     </p:dataTable>
 
