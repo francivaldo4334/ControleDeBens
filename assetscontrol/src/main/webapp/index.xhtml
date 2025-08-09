@@ -65,7 +65,7 @@
       <h:outputText value="Tipo" />
       <p:selectOneMenu id="tipo" value="#{assetBean.assetSelected.assetType}" required="true">
         <f:selectItem itemLabel="Selecione" itemValue="" />
-        <f:selectItems value="#{assetTypeBean.assetTypes}" itemLabel="assetType.name" var="assetType" itemValue="#{assetType}" />
+        <f:selectItems value="#{assetTypeBean.assetTypes}" itemLabel="#{assetType.name}" var="assetType" itemValue="#{assetType}" />
       </p:selectOneMenu>
 
       <h:outputText value="Preço da Compra" />
